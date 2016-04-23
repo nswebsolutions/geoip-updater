@@ -1,5 +1,5 @@
-Build Nginx & LibreSSL
-======================
+Auto update GeoIP Maxmind databases
+===================================
 
 ##License
 Script for downloading latest legacy Maxmind GeoIP databases
@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this script.  If not, see <http://www.gnu.org/licenses/gpl.txt>
 
 ##About this script
-This script download the latest legacy Maxmind GeoIP databases
+This script download the latest legacy Maxmind GeoIP databases (https://dev.maxmind.com/geoip/)
 
 - GeoIP Legacy Country Database
 - GeoIP Legacy City Database
