@@ -2,7 +2,7 @@ Build Nginx & LibreSSL
 ======================
 
 ##License
-Script for building the latest release of Nginx with the latest release of LibreSSL
+Script for downloading latest legacy Maxmind GeoIP databases
 Copyleft (C) NSWeb Solutions - 2016
 
 This script is free software: you can redistribute it and/or modify
@@ -19,28 +19,48 @@ You should have received a copy of the GNU General Public License
 along with this script.  If not, see <http://www.gnu.org/licenses/gpl.txt>
 
 ##About this script
-This script build the latest release of Nginx with the latest release of Libressl
+This script download the latest legacy Maxmind GeoIP databases
 
-- GeoIP
-- IPV6
-- HTTP2
-- Threads AIO
-- CHACHA20_POLY1305 support
+- GeoIP Legacy Country Database
+- GeoIP Legacy City Database
 
 ##Dependencies
-Build tools (included in the script)
+Gunzip and manual installation for the first time
 
 ##Designed for
 Debian 8
 
-##Installation
-<code>cd /tmp && wget --no-check-certificate https://raw.githubusercontent.com/nswebsolutions/nginx-libressl/master/build.sh && chmod +x build.sh && ./build.sh</code>
+##Manual Installation (or first usage)
+<code>cd /tmp && wget --no-check-certificate https://raw.githubusercontent.com/nswebsolutions/geoip-updater/master/geoip-update.sh && chmod +x geoip-update.sh && ./geoip-update.sh </code>
 
 
-##Ciphers for nginx .conf
-Add this to your Nginx.conf to enable secure chippers and CHACHA20_POLY1305 support
+##Config for nginx
+Open your server configuration file and add the following to the http section:
 
-<code>
-ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA384';</code></code>
+<code>geoip_country  /path/to/CountryGeoIP.dat
 
-<code>ssl_prefer_server_ciphers on;</code>
+geoip_city     /path/to/GeoIPOrLiteCity.dat;</code>
+
+Now make sure the following parameters are passed to fastcgi:
+
+<code>fastcgi_param GEOIP_ADDR $remote_addr;
+
+fastcgi_param GEOIP_COUNTRY_CODE $geoip_country_code;
+
+fastcgi_param GEOIP_COUNTRY_NAME $geoip_country_name;
+
+fastcgi_param GEOIP_REGION $geoip_region;
+
+fastcgi_param GEOIP_REGION_NAME $geoip_region_name;
+
+fastcgi_param GEOIP_CITY $geoip_city;
+
+fastcgi_param GEOIP_AREA_CODE $geoip_area_code;
+
+fastcgi_param GEOIP_LATITUDE $geoip_latitude;
+
+fastcgi_param GEOIP_LONGITUDE $geoip_longitude;
+
+fastcgi_param GEOIP_POSTAL_CODE $geoip_postal_code;</code>
+
+
