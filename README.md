@@ -33,17 +33,24 @@ Debian 8
 ##Manual Installation (or first usage)
 <code>cd /tmp && wget --no-check-certificate https://raw.githubusercontent.com/nswebsolutions/geoip-updater/master/geoip-update.sh && chmod +x geoip-update.sh && ./geoip-update.sh </code>
 
+##Automatic Updates
+<code>cd /opt && wget --no-check-certificate https://raw.githubusercontent.com/nswebsolutions/geoip-updater/master/geoip-autoupdate.sh && chmod +x geoip-autoupdate.sh && ./geoip-autoupdate.sh </code>
+
+Add this to your root crontab:
+<code>0 0 * * 0 /opt/geoip-autoupdate.sh > /dev/null 2>&1</code>
+
 
 ##Config for nginx
 Open your server configuration file and add the following to the http section:
 
-<code>geoip_country  /path/to/CountryGeoIP.dat
+geoip_country  /path/to/CountryGeoIP.dat
 
-geoip_city     /path/to/GeoIPOrLiteCity.dat;</code>
+geoip_city     /path/to/GeoIPOrLiteCity.dat;
+
 
 Now make sure the following parameters are passed to fastcgi:
 
-<code>fastcgi_param GEOIP_ADDR $remote_addr;
+fastcgi_param GEOIP_ADDR $remote_addr;
 
 fastcgi_param GEOIP_COUNTRY_CODE $geoip_country_code;
 
@@ -61,6 +68,6 @@ fastcgi_param GEOIP_LATITUDE $geoip_latitude;
 
 fastcgi_param GEOIP_LONGITUDE $geoip_longitude;
 
-fastcgi_param GEOIP_POSTAL_CODE $geoip_postal_code;</code>
+fastcgi_param GEOIP_POSTAL_CODE $geoip_postal_code;
 
 
